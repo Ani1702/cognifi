@@ -1,0 +1,55 @@
+<%layout("/layouts/boilerplate")%>
+<div class="home-btn">
+    <a href="/"><div class="btn btn-dark">Home</div></a>
+    </div>
+<div class="created col-6 offset-3">
+<%for(quiz of quizzes){%>
+    <h3>Quizzes Created</h3>
+    <br>
+    <div class="card border-primary text-center">
+        <div class="card-header ">
+          Access Code: <b><%=quiz.code%></b>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title"><%=quiz.title%></h5>
+          <p class="card-text">Number of questions: <%=quiz.questions.length%></p>
+          <a href="/quiz/<%=quiz.id%>" class="btn btn-dark">Edit quiz</a>
+        </div>
+        <div class="card-footer text-body-secondary">
+         <i>Created on: <%=quiz.createdAt%></i>
+        </div>
+      </div>
+      <br>
+    <%}%>
+</div>
+<hr id="userhome-hr">
+
+<%if(currUser.quizzesAttempted && currUser.quizzesAttempted.length > 0){%>
+    <div class="created col-6 offset-3">
+    <h3>Quizzes Attempted</h3>
+    <br>
+    <%for(quiz of currUser.quizzesAttempted){%>
+        <div class="card border-primary text-center">
+            <div class="card-body">
+              <h5 class="card-title">Quiz Id: <%=quiz.quiz%></h5>
+              <p class="card-text">Score: <%=quiz.score%></p>
+            </div>
+            <div class="card-footer text-body-secondary">
+             <i>Attempted on: <%=quiz.createdAt%></i>
+            </div>
+          </div>
+          <br>
+        <%}%>
+<%}%>
+<div class="attempted col-6 offset-3">
+
+
+    
+    <!-- <form>
+        <label for="meeting-time">Choose a time for the meeting:</label>
+        <input type="time" id="meeting-time" name="meeting-time" required>
+        <input type="submit" value="Submit">
+      </form> -->
+</div>
+
+<br><br><br><br><br>

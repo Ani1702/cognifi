@@ -1,0 +1,55 @@
+<% layout("/layouts/boilerplate") %>
+<form action="/quiz/attempt/<%=quiz.id%>" method="POST" novalidate class="needs-validation">
+    <h2 class="offset-2"><%=quiz.title%></h2>
+    <p class="offset-2"><b>Access Code:</b> <%=quiz.code%></p>
+    <br>
+    <div class="card col-8 offset-2 border-primary">
+        <div class="card-body">
+            <p class="offset-1"><b>Instructions:</b></p>
+            <p class="offset-1"><%=quiz.instructions%></p>
+        </div>
+    </div>
+    <br>
+   
+    <div class="offset-2">
+        <button type="button" class="btn btn-dark" id="startButton" disabled>Start</button>
+        <br><br>
+        <h6>*Timer under development</h6>
+    </div>
+    <br>
+    <hr>
+    <% for (question of quiz.questions) { %>
+        <div class="add-ques row" id="question<%= question._id %>">
+            <div class="col-8 offset-2">
+                <h4>Q. <%= question.text %></h4>
+                <% if (question.options && question.options[0] != '') { %>
+                    <% for (option of question.options) { %>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="<%= question._id %>" id="<%= option %>" value="<%= option %>">
+                            <label class="form-check-label" for="<%= option %>">
+                                <%= option %>
+                            </label>
+                        </div>
+                    <% } %>
+                <% } else if (question.options[0] == '') { %>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="<%= question._id %>" id="True" value="True">
+                        <label class="form-check-label" for="True">
+                            True
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="<%= question._id %>" id="False" value="False">
+                        <label class="form-check-label" for="False">
+                            False
+                        </label>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    <% } %>
+    <br><br>
+    
+    <button class="btn btn-outline-dark next-btn mb-3 offset-2" id="submitButton">Submit</button>
+</form>
+<br><br><br><br><br>

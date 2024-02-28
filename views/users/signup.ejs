@@ -1,0 +1,40 @@
+<%- layout("/layouts/boilerplate") %>
+
+<div class=" row">
+    <br>
+    <div class="signup col-6 offset-3">
+        <h4>Register New User</h4>
+        <form action="/signup" method="POST" class="needs-validation" novalidate> 
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input name="username" id="username" class="form-control" placeholder="Enter username" required>
+                <!-- <div class="invalid-feedback">Please enter a valid username!</div> -->
+                <div class="invalid-feedback">Enter unique username!</div>
+
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input name="email" id="email" class="form-control" placeholder="Enter email" required>
+                <div class="invalid-feedback">Please enter a valid email!</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" name="password" id="password" class="form-control" placeholder="Enter password" required>
+                <div class="invalid-feedback">Please enter a valid password!</div>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="t&c" id="t&c" required>
+                <label class="form-check-label" for="t&c">
+                    <p>I agree to Cognify’s <a href="a">Terms of Service</a>, <a href="">Privacy Policy</a>.</p>
+                </label>
+                <div class="invalid-feedback">Please agree to the terms of service!</div>
+              </div>
+              
+              <br>
+            <button class="btn btn-dark">Signup</button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,97 @@
+<% layout("/layouts/boilerplate") %>
+<% if(currUser){%>
+    <div class="your-quizzes">
+    <a href="/user/<%=currUser.id%>"><div class="btn btn-outline-dark ">Your Quizzes</div></a>
+    </div>
+    <%}%>
+<div class="add-ques row">
+    <div class="col-8 offset-2">
+       
+<form action="/quiz/<%=quiz.id%>" method="POST" novalidate>
+    <h3>Add Question</h3>
+    <div class="mb-3">
+        <label for="text" class="form-label">Question:</label>
+            <textarea name="question[text]" class="form-control" cols="30" rows="4" required></textarea>
+        <div class="invalid-feedback">Please enter a valid question!</div>
+    </div>
+
+
+<div class="mb-3">
+    <select class="form-select" aria-label="Default select example" id="questionType" name="question[type]">
+        <option selected value="0">Type of Question</option>
+        <option value="1">Multiple Choice</option>
+        <option value="2">True/False</option>
+        <option value="3">Descriptive</option>
+    </select>
+</div>
+
+<div class="answer">
+    <h4>Answer</h4>
+    
+    <div class="mcq">
+        <div class="correct-ans">
+            <div class="mb-3">
+                <label for="title" class="form-label">Correct Option</label>
+                <input name="question[correctAnswer]" class="form-control" placeholder="Enter correct option" required>
+                <div class="invalid-feedback">Please enter a valid option!</div>
+            </div>
+        </div>
+        <br>
+
+        <div class="btn btn-light add-option" onclick="addOption()">Add option</div>
+        <div class="mb-3">
+            <label for="title" class="form-label">Option</label>
+            <input name="question[options][]" class="form-control" placeholder="Enter option" required>
+            <div class="invalid-feedback">Please enter a valid option!</div>
+        </div>
+       
+    </div>
+
+    <div class="true-false">
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="question[trueFalseAnswer]" id="true" value="True" required>
+            <label class="form-check-label" for="true">True</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="question[trueFalseAnswer]" id="false" value="False" required>
+            <label class="form-check-label" for="false">False</label>
+        </div>
+    </div>
+
+
+<div class="descriptive">
+    <div class="mb-3">
+        <textarea name="question[correctAnswer]" class="form-control" cols="30" rows="4" placeholder="Write your answer here"></textarea>
+    <div class="invalid-feedback">Please enter a valid answer!</div>
+    </div>
+</div>
+
+</div>
+
+<br>
+        <button class="btn btn-dark" id="add-btn" class="submit">Add question </button>
+    </form>
+    </div>
+</div>
+
+
+
+<div class="col-8 offset-2 mb-3 mt-3">
+    <h4>All Questions</h4>
+    <div class="row">
+    <% for(question of quiz.questions){%>
+     <div class="card ms-3">
+        <div class="card-body">
+            <h5 class="card-title"><b>Q. </b><%=question.text%></h5>
+            <p><b>Answer: </b><%=question.correctAnswer%></p>
+
+            <button class="btn btn-outline-dark" disabled>Edit (Under Development)</button>
+            <a href="#"><button class="btn btn-dark">Delete</button></a>
+        </div>
+      </div>
+    <% } %>
+ </div>
+ 
+ </div>
+
+<br><br><br><br><br><br><br><br>

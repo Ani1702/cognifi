@@ -1,0 +1,22 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="add-ques row">
+    <div class="col-8 offset-2">
+        
+<form action="/quiz/attempt/check-code" method="GET" novalidate class="needs-validation">
+    <div class="mb-3 ">
+        <label for="title" class="form-label">Access Code</label>
+        <input name="access-code" class="form-control" placeholder="Enter the 6-digit access code" required>
+        <div class="invalid-feedback">Please enter a valid code!</div>
+    </div>
+    <button class="btn btn-dark">Next</button>
+    </div>
+
+
+</form>
+    </div>
+
+
+
+
+

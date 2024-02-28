@@ -1,0 +1,21 @@
+<% layout("/layouts/boilerplate") %>
+<% if(currUser){%>
+    <div class="your-quizzes">
+    <a href="/user/<%=currUser.id%>"><div class="btn btn-outline-dark ">Your Quizzes</div></a>
+    </div>
+    <%}%>
+
+<div class="sub-title">
+    <h1>The Ultimate Quiz Experience</h1>
+    <br>
+    <h4>Unleash Excitement and Knowledge with Our Remarkable Quiz Maker!</h4>
+</div>
+<hr id="home-hr">
+<div class="quiz-access">
+    
+    <a href="/quiz/attempt"> <div class="btn btn-dark">Take a quiz</div></a>
+    <a href="/quiz/new"><div class="btn btn-light">Create a quiz</div></a>
+    
+
+</div>
+

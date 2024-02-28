@@ -1,0 +1,23 @@
+<div class="nav">
+    <span class="material-symbols-outlined">lightbulb</span>
+    <a href="/" id="name"><h2 >COGNiFi</h2></a>
+
+
+    <div class="user-btn ms-auto">
+    <% if(!currUser){%>
+    <a href="/signup"><div class="btn btn-outline-dark ">Signup</div></a>
+    <a href="/login"><div class="btn btn-dark ">Login</div></a>
+    <%}%>
+    <% if(currUser){%>
+        <a href="/logout"><div class="btn btn-outline-dark ">Logout</div></a>
+        <%}%>
+</div>
+    
+</div>
+
+
+
+
+
+
+
