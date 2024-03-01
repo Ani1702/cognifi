@@ -93,6 +93,10 @@ body::before {
     margin: 0 auto;
 }
 
+.quiz-btn{
+    margin: 0 0.5rem;
+}
+
 /* Signup */
 .signup{
     padding: 2rem;

@@ -8,12 +8,17 @@
     <br>
     <div class="card border-primary text-center">
         <div class="card-header ">
-          Access Code: <b><%=quiz.code%></b>
+            Access Code: <b id="quizCode"><%= quiz.code %></b> <i class="fa-regular fa-copy" onclick="copyToClipboard('<%= quiz.code %>')"></i>
         </div>
         <div class="card-body">
           <h5 class="card-title"><%=quiz.title%></h5>
           <p class="card-text">Number of questions: <%=quiz.questions.length%></p>
-          <a href="/quiz/<%=quiz.id%>" class="btn btn-dark">Edit quiz</a>
+          <a href="/quiz/<%=quiz.id%>" class="btn btn-dark quiz-btn">Edit quiz</a>
+            <div class="mt-3 ">
+                <form action="/quiz/<%=quiz.id%>?_method=DELETE" method="POST">
+                <button class="btn btn-outline-danger quiz-btn">Delete quiz</button>
+                </form>
+            </div>
         </div>
         <div class="card-footer text-body-secondary">
          <i>Created on: <%=quiz.createdAt%></i>
@@ -53,3 +58,11 @@
 </div>
 
 <br><br><br><br><br>
+
+<script>
+    function copyToClipboard(code) {
+      navigator.clipboard.writeText(code)
+        .then(() => alert('Code copied to clipboard: ' + code))
+        .catch(err => console.error('Unable to copy code', err));
+    }
+    </script>

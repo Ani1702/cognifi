@@ -1,3 +1,8 @@
+if(process.env.NODE_ENV!="production"){
+    require('dotenv').config();
+}
+
+
 const express=require("express");
 const app=express();
 const path=require("path");
@@ -9,6 +14,7 @@ const wrapAsync=require("./utils/wrapAsync.js");
 const ExpressError=require("./utils/ExpressError.js");
 
 const session=require("express-session");
+const MongoStore = require('connect-mongo');
 const flash=require("connect-flash");
 
 const passport=require("passport");
@@ -21,8 +27,34 @@ const {saveRedirectUrl, isLoggedIn}=require("./middleware.js");
 
 const { generateUniqueCode }=require('./function.js');
 
+MONGO_URL='mongodb://127.0.0.1:27017/cognify';
+dbUrl=process.env.ATLASDB_URL;
+
+main()
+    .then(()=>{
+        console.log('Connection Successful! DB Connected!');
+    })
+    .catch(err => console.log(err));
+
+async function main() {
+  await mongoose.connect(dbUrl);
+}
+
+const store=MongoStore.create({
+    mongoUrl:dbUrl,
+    crypto:{
+        secret:process.env.SECRET,
+    },
+    touchAfter:24*3600,
+});
+
+store.on('error',()=>{
+    console.log("ERROR IN MONGO SESSION STORE",err);
+});
+
 const sessionOptions={
-    secret:"mysupersecretcode",
+    store,
+    secret:process.env.SECRET,
     resave:false,
     saveUninitialized: true,
     cookie:{
@@ -32,15 +64,7 @@ const sessionOptions={
     }
 };
 
-main()
-    .then(()=>{
-        console.log('Connection Successful! DB Connected!');
-    })
-    .catch(err => console.log(err));
 
-async function main() {
-  await mongoose.connect('mongodb://127.0.0.1:27017/cognify');
-}
 
 app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"views"));
@@ -158,11 +182,11 @@ app.post("/quiz/:id",isLoggedIn,wrapAsync(async(req,res)=>{
     const selectedType = question.type;
 
   if (selectedType === '1') {
-    question.correctAnswer= question.correctAnswer[0];
+    question.correctAnswer= question.mcq;
   } else if (selectedType === '2') {
     question.correctAnswer= question.trueFalseAnswer;
   } else if (selectedType === '3') {
-    question.correctAnswer= question.correctAnswer[2];
+    question.correctAnswer= question.descriptive;
   }
     
     console.log(question);
@@ -178,6 +202,15 @@ app.post("/quiz/:id",isLoggedIn,wrapAsync(async(req,res)=>{
     res.redirect(`/quiz/${quiz.id}`);
 }));
 
+app.delete("/quiz/:id",async(req,res)=>{
+    let {id}=req.params;
+    let quiz=await Quiz.findById(id);
+    let deleteQuestions = await Question.deleteMany({ _id: { $in: quiz.questions } });
+    const deleteQuiz=await Quiz.findByIdAndDelete(id);
+    console.log(deleteQuiz);
+    res.redirect(`/user/${res.locals.currUser.id}}`);
+});
+
 app.get("/user/:id",isLoggedIn,wrapAsync(async(req,res,next)=>{
     let {id}=req.params;
     let quizzes=await Quiz.find({owner:`${res.locals.currUser.id}`});
@@ -186,6 +219,17 @@ app.get("/user/:id",isLoggedIn,wrapAsync(async(req,res,next)=>{
     // console.log(res.locals.currUser.id);
 }));
 
+app.delete("/question/:id",wrapAsync(async(req,res,next)=>{
+    let {id:quesId}=req.params;
+    let deletedQuestion=await Question.findByIdAndDelete(quesId);
+    // console.log(deletedQuestion);
+    const quiz=await Quiz.findOne({ questions: quesId });
+    console.log(quiz);
+    const deleteFromQuiz = await Quiz.findOneAndUpdate({ questions: quesId },{$pull:{ questions: quesId }});
+    // console.log(deleteFromQuiz);
+    req.flash("success","Question deleted.");
+    res.redirect(`/quiz/${quiz.id}`);
+}));
 
 
 //USER AUTHENTICATION:

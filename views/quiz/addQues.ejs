@@ -1,7 +1,7 @@
 <% layout("/layouts/boilerplate") %>
 <% if(currUser){%>
     <div class="your-quizzes">
-    <a href="/user/<%=currUser.id%>"><div class="btn btn-outline-dark ">Your Quizzes</div></a>
+    <a href="/user/<%=currUser.id%>"><div class="btn btn-outline-dark ">Done</div></a>
     </div>
     <%}%>
 <div class="add-ques row">
@@ -17,8 +17,8 @@
 
 
 <div class="mb-3">
-    <select class="form-select" aria-label="Default select example" id="questionType" name="question[type]">
-        <option selected value="0">Type of Question</option>
+    <select class="form-select" aria-label="Default select example" id="questionType" name="question[type]" required>
+        <option selected disabled>Type of Question</option>
         <option value="1">Multiple Choice</option>
         <option value="2">True/False</option>
         <option value="3">Descriptive</option>
@@ -31,9 +31,9 @@
     <div class="mcq">
         <div class="correct-ans">
             <div class="mb-3">
-                <label for="title" class="form-label">Correct Option</label>
-                <input name="question[correctAnswer]" class="form-control" placeholder="Enter correct option" required>
-                <div class="invalid-feedback">Please enter a valid option!</div>
+                <label for="title" class="form-label">Correct Answer</label>
+                <input name="question[mcq]" class="form-control" placeholder="Enter correct answer" required>
+                <div class="invalid-feedback">Please enter a valid answer!</div>
             </div>
         </div>
         <br>
@@ -61,7 +61,7 @@
 
 <div class="descriptive">
     <div class="mb-3">
-        <textarea name="question[correctAnswer]" class="form-control" cols="30" rows="4" placeholder="Write your answer here"></textarea>
+        <textarea name="question[descriptive]" class="form-control" cols="30" rows="4" placeholder="Write your answer here" value=""></textarea>
     <div class="invalid-feedback">Please enter a valid answer!</div>
     </div>
 </div>
@@ -83,10 +83,15 @@
      <div class="card ms-3">
         <div class="card-body">
             <h5 class="card-title"><b>Q. </b><%=question.text%></h5>
+            <%if(question.options!=''){%><p><b>Options: </b><%=question.options%></p><%}%>
             <p><b>Answer: </b><%=question.correctAnswer%></p>
 
             <button class="btn btn-outline-dark" disabled>Edit (Under Development)</button>
-            <a href="#"><button class="btn btn-dark">Delete</button></a>
+            <br>
+            <br>
+            <form action="/question/<%=question.id%>?_method=DELETE" method="POST" >
+                <button class="btn btn-dark" type="submit">Delete</button>
+            </form>
         </div>
       </div>
     <% } %>
