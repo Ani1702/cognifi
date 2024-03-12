@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="card-footer text-body-secondary">
-         <i>Created on: <%=quiz.createdAt.toLocaleString("en-IN")%></i>
+         <i>Created on: <%=quiz.createdAt.toLocaleString("en-IN",{ timeZone: 'Asia/Kolkata' })%></i>
         </div>
       </div>
       <br>
@@ -40,7 +40,7 @@
               <p class="card-text">Score: <%=quiz.score%></p>
             </div>
             <div class="card-footer text-body-secondary">
-             <i>Attempted on: <%=quiz.createdAt.toLocaleString("en-IN")%></i>
+             <i>Attempted on: <%=quiz.createdAt.toLocaleString("en-IN",{ timeZone: 'Asia/Kolkata' })%></i>
             </div>
           </div>
           <br>
