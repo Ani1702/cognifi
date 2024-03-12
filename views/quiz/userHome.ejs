@@ -3,8 +3,8 @@
     <a href="/"><div class="btn btn-dark">Home</div></a>
     </div>
 <div class="created col-6 offset-3">
+  <h3>Quizzes Created</h3>
 <%for(quiz of quizzes){%>
-    <h3>Quizzes Created</h3>
     <br>
     <div class="card border-primary text-center">
         <div class="card-header ">
@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="card-footer text-body-secondary">
-         <i>Created on: <%=quiz.createdAt%></i>
+         <i>Created on: <%=quiz.createdAt.toLocaleString("en-IN")%></i>
         </div>
       </div>
       <br>
@@ -40,7 +40,7 @@
               <p class="card-text">Score: <%=quiz.score%></p>
             </div>
             <div class="card-footer text-body-secondary">
-             <i>Attempted on: <%=quiz.createdAt%></i>
+             <i>Attempted on: <%=quiz.createdAt.toLocaleString("en-IN")%></i>
             </div>
           </div>
           <br>
